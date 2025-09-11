@@ -1,0 +1,281 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------- Tokens -------- */
+:root {
+  --ring: 99 102 241; /* indigo */
+  --ink: 15 23 42;    /* slate-900 */
+  --card: 255 255 255 / .85;
+  --glass: 255 255 255 / .6;
+}
+html, body, #root { height: 100%; }
+
+/* Fluid type for headings */
+:root {
+  --h1: clamp(22px, 4vw, 32px);
+  --h2: clamp(18px, 2.6vw, 22px);
+}
+
+/* App gradient */
+.app-bg {
+  background:
+    radial-gradient(1400px 700px at 5% -15%, #8b5cf622, transparent 60%),
+    radial-gradient(1100px 700px at 110% 10%, #ec489922, transparent 60%),
+    linear-gradient(180deg, #fbfbff, #f6f6ff);
+}
+.dark .app-bg {
+  background:
+    radial-gradient(1400px 700px at -10% -15%, #312e81aa, transparent 60%),
+    radial-gradient(1100px 700px at 110% 0%, #581c87aa, transparent 60%),
+    linear-gradient(180deg, #0a0a10, #0c0c14);
+}
+
+/* Page container */
+.container-app {
+  @apply max-w-5xl mx-auto px-4 sm:px-6;
+}
+
+/* Header */
+.header { @apply flex items-center justify-between gap-3 py-6; }
+.brand  { font-size: var(--h1); @apply font-extrabold tracking-tight text-slate-900; }
+
+/* KPI chips (scrollable on mobile) */
+.kpis {
+  @apply flex items-center gap-2 overflow-x-auto max-w-full py-1;
+  -webkit-overflow-scrolling: touch;
+}
+.kpi {
+  @apply inline-flex items-center gap-2 px-3 py-1 rounded-xl border shadow-sm backdrop-blur;
+  background: rgba(var(--glass));
+  border-color: rgba(0,0,0,.08);
+  color: rgb(var(--ink) / .8);
+  white-space: nowrap;
+}
+
+/* Tabs */
+.tabs { @apply flex gap-2 mb-5; }
+.tab {
+  @apply inline-flex items-center px-3 py-1.5 rounded-full border text-slate-700 bg-white/80 hover:bg-white backdrop-blur;
+}
+.tab-active {
+  @apply text-white border-transparent shadow;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+}
+
+/* Card */
+.card {
+  @apply rounded-3xl p-5 sm:p-6 border backdrop-blur;
+  background: rgba(var(--card));
+  border-color: rgba(0,0,0,.08);
+  box-shadow: 0 10px 26px -12px rgba(0,0,0,.15), inset 0 1px 0 rgba(255,255,255,.6);
+}
+.dark .card {
+  background: color-mix(in oklab, rgb(24 24 27) 64%, transparent);
+  border-color: rgba(255,255,255,.06);
+}
+
+/* Inputs */
+.input, .select {
+  @apply w-full rounded-2xl px-4 py-3 outline-none border bg-white/80;
+  border-color: rgba(0,0,0,.12);
+}
+.input:focus, .select:focus {
+  box-shadow: 0 0 0 8px color-mix(in oklab, rgb(var(--ring) / .16), transparent);
+  border-color: rgb(var(--ring));
+}
+
+/* Buttons */
+.btn { @apply inline-flex items-center justify-center rounded-2xl px-4 py-2 font-semibold transition active:scale-[.99]; }
+.btn-ghost { @apply border bg-white/80 hover:bg-white; }
+.btn-primary {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+  @apply text-white shadow;
+}
+
+/* Finance row metrics */
+.metrics { @apply mt-2 grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm; }
+.metric  { @apply px-3 py-2 rounded-xl bg-white/70 border text-slate-700; }
+
+/* Mobile sticky tab bar */
+.mobile-tabbar {
+  position: sticky; bottom: env(safe-area-inset-bottom, 0);
+  @apply md:hidden z-20 bg-white/90 backdrop-blur border-t;
+}
+.mobile-tabbar-inner {
+  @apply container-app py-3 flex items-center justify-between gap-2;
+}
+.mobile-fab {
+  @apply fixed bottom-[72px] right-4 z-20 md:hidden rounded-full shadow-lg text-white px-5 py-3;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+}
+
+/* Utilities */
+.text-muted { @apply text-slate-500; }
+/* ====== GLASSY BACKGROUND SYSTEM ====== */
+/* Wrapper fixed behind the app */
+.fx-wrap{
+  position: fixed;
+  inset: 0;
+  z-index: 0;          /* content gets z-10 */
+  pointer-events: none; /* never block clicks */
+  overflow: hidden;
+}
+
+/* Cursor spotlight (soft-light blend for glass vibe) */
+.fx-spotlight{
+  position: absolute; inset: -15%;
+  mix-blend-mode: soft-light;
+  opacity: .9;
+  will-change: background-image;
+}
+
+/* Big blurry gradient blobs */
+.blob{
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(48px);
+  opacity: .55;
+  will-change: transform;
+}
+
+.blob-1{
+  width: 60vmax; height: 60vmax;
+  top: -12%; left: -18%;
+  background:
+    radial-gradient(circle at 30% 30%, #8b5cf6 0%, #8b5cf6cc 22%, transparent 65%);
+  animation: float-a 12s ease-in-out infinite alternate;
+}
+
+.blob-2{
+  width: 52vmax; height: 52vmax;
+  right: -18%; bottom: -14%;
+  background:
+    radial-gradient(circle at 70% 35%, #ec4899 0%, #ec4899cc 20%, transparent 62%);
+  animation: float-b 16s ease-in-out infinite alternate;
+}
+
+.blob-3{
+  width: 45vmax; height: 45vmax;
+  left: 55%; top: 38%;
+  background:
+    radial-gradient(circle at 50% 50%, #22d3ee 0%, #22d3eecc 18%, transparent 60%);
+  animation: float-c 18s ease-in-out infinite alternate;
+}
+
+/* Subtle grain / micro-grid for glass */
+.grain{
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(rgba(17,17,17,.035) 1px, transparent 1.2px);
+  background-size: 3px 3px;
+  mix-blend-mode: multiply;
+  opacity: .35;
+}
+.dark .grain{
+  background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1.2px);
+  opacity: .25;
+}
+
+/* Float animations */
+@keyframes float-a {
+  from { transform: translate3d(0,0,0) rotate(0.001deg); }
+  to   { transform: translate3d(18px,10px,0) rotate(0.001deg); }
+}
+@keyframes float-b {
+  from { transform: translate3d(0,0,0) scale(1) rotate(0.001deg); }
+  to   { transform: translate3d(-22px,8px,0) scale(1.04) rotate(0.001deg); }
+}
+@keyframes float-c {
+  from { transform: translate3d(0,0,0) rotate(0.001deg); }
+  to   { transform: translate3d(16px,-10px,0) rotate(0.001deg); }
+}
+
+/* ====== Make existing cards even glassier ====== */
+.card{
+  backdrop-filter: blur(14px) saturate(1.05);
+}
+.kpi{
+  backdrop-filter: blur(10px);
+}
+
+/* Dark mode tweaks for blobs (richer hues, lower opacity) */
+.dark .blob-1{ background: radial-gradient(circle at 30% 30%, #4f46e5 0%, #4f46e5cc 22%, transparent 65%); opacity: .45; }
+.dark .blob-2{ background: radial-gradient(circle at 70% 35%, #db2777 0%, #db2777cc 20%, transparent 62%); opacity: .45; }
+.dark .blob-3{ background: radial-gradient(circle at 50% 50%, #06b6d4 0%, #06b6d4cc 18%, transparent 60%); opacity: .42; }
+
+/* ---------- Header (stack on mobile) ---------- */
+.header{
+  /* stack on mobile, row on >= sm */
+  display:flex; flex-direction:column; align-items:flex-start; gap:.5rem;
+  padding:1rem 0;
+}
+@media (min-width:640px){
+  .header{ flex-direction:row; align-items:center; justify-content:space-between; padding:1.5rem 0; }
+}
+
+/* brand tweaks */
+.brand{ line-height:1.05; word-break:break-word; }
+
+/* ---------- KPI chips: compact + scrollable ---------- */
+.kpis{
+  display:flex; align-items:center; gap:.5rem;
+  overflow-x:auto; -webkit-overflow-scrolling:touch; padding:.25rem 0;
+  max-width:100%;
+  flex-wrap:wrap;               /* allow wrap if space; still scrollable */
+}
+.kpis::-webkit-scrollbar{ display:none; }
+
+.kpi{
+  white-space:nowrap;
+  padding:.35rem .6rem;         /* tighter on phones */
+  font-size:.8125rem;           /* ~13px */
+  border-radius:12px;
+  background:rgba(255,255,255,.85);
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow:0 1px 1px rgba(0,0,0,.04);
+  backdrop-filter:blur(10px);
+  flex-shrink:0;                /* don’t squish */
+}
+
+/* Logout button matches chip height on mobile */
+.logout{ padding:.35rem .6rem; border-radius:12px; font-size:.8125rem; }
+
+/* ---------- Cards / Inputs / Buttons: phone-friendly ---------- */
+.card{ padding:1rem; }
+@media (min-width:640px){ .card{ padding:1.25rem 1.5rem; } }
+
+.input,.select{ padding:.7rem .9rem; font-size:1rem; } /* keep >=16px to avoid iOS zoom */
+
+.btn{ padding:.55rem .8rem; border-radius:14px; font-weight:600; font-size:.9rem; }
+@media (min-width:640px){ .btn{ padding:.6rem 1rem; font-size:1rem; } }
+
+/* Primary stays glossy */
+.btn-primary{ color:#fff; background:linear-gradient(135deg,#6366f1,#8b5cf6,#ec4899); }
+
+/* ---------- Metrics: 2 cols on phones, 4 on larger ---------- */
+.metrics{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.5rem; margin-top:.5rem; }
+@media (min-width:640px){ .metrics{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
+.metric{ padding:.5rem .75rem; border-radius:12px; background:rgba(255,255,255,.8); border:1px solid rgba(0,0,0,.08); }
+
+/* ---------- Container uses safe-area padding on notched phones ---------- */
+.container-app{
+  padding-left:max(1rem, env(safe-area-inset-left));
+  padding-right:max(1rem, env(safe-area-inset-right));
+}
+/* Modal */
+.modal-backdrop{
+  position: fixed; inset: 0; z-index: 50;
+  background: rgba(15,23,42,.45);
+  backdrop-filter: blur(4px);
+  display: grid; place-items: center;
+}
+.modal{
+  width: min(640px, calc(100% - 2rem));
+  @apply card;
+}
+.modal-header{ @apply flex items-center justify-between mb-3; }
+.modal-title{ @apply text-lg font-semibold; }
+.modal-error{ @apply mb-3 text-sm text-red-600; }
+.chip.selectable{ cursor: pointer; user-select: none; text-align: center; }
+

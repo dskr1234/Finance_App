@@ -1,0 +1,13 @@
+node_modules/
+dist/
+dev-dist/
+client/dist/
+server/dist/
+.env
+*.env
+client/.env*
+server/.env*
+.DS_Store
+.idea/
+.vscode/
+.vercel/
