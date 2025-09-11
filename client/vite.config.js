@@ -20,8 +20,8 @@ export default defineConfig({
       ],
 
       manifest: {
-        name: "Just Finance",
-        short_name: "JustFinance",
+        name: "Likesh Reddy Finance",
+  short_name: "LR Finance",
         start_url: "/",
         scope: "/",
         display: "standalone",
